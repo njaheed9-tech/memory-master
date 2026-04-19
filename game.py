@@ -18,11 +18,28 @@ class MemoryMasterGame:
 
     def __init__(self, mode="numbers", difficulty="medium"):
         """Set up a new game with the given mode and difficulty."""
-        pass
+        valid_modes = ["numbers", "phrases", "pictures"]
+        valid_difficulties = ["easy", "medium", "hard"]
+
+        if mode not in valid_modes:
+            raise ValueError("Mode must be in numbers, phrases, or pictures")
+        if difficulty not in valid_difficulties:
+            raise ValueError("Difficulty must be easy, medium, or hard")
+        
+        self.mode = mode 
+        self.diffculty = difficulty 
+        self.level = 1 
+        self.score = 0 
+        self.score_tracker = ScoreTracker(filepath="High_score_")
 
     def get_display_time(self):
         """Return how many seconds to show the challenge."""
-        pass
+        if self.difficulty == "easy":
+            return 5.0 
+        elif self.difficulty == "medium":
+            return 3.0 
+        else: 
+            return 1.5
 
     def generate_challenge(self):
         """Create a challenge for the current level and mode."""
