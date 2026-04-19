@@ -30,7 +30,7 @@ class MemoryMasterGame:
         self.diffculty = difficulty 
         self.level = 1 
         self.score = 0 
-        self.score_tracker = ScoreTracker(filepath="High_score_")
+        self.score_tracker = ScoreTracker(filepath=f"High_score_{mode}.txt")
 
     def get_display_time(self):
         """Return how many seconds to show the challenge."""
