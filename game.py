@@ -43,7 +43,13 @@ class MemoryMasterGame:
 
     def generate_challenge(self):
         """Create a challenge for the current level and mode."""
-        pass
+        if self.mode == "numbers":
+            return generate_number(self.level) # generates a number with as many digits as the current level 
+        elif self.mode == "phrases": 
+            return generate_word_list(self.level + 1) # generates word list, +1 to start with 2 words 
+        else: 
+            rows, cols = get_pattern_size(self.level) # figures out how big the grid should be 
+            return generate_pattern(rows, cols) # generates pattern with those dimensions 
 
     def check_answer(self, challenge, player_answer):
         """Return True if the player's answer is correct, False if not."""
