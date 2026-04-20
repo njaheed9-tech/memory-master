@@ -53,7 +53,12 @@ class MemoryMasterGame:
 
     def check_answer(self, challenge, player_answer):
         """Return True if the player's answer is correct, False if not."""
-        pass
+        if self.mode == "numbers":
+            return player_answer.strip() == challenge # removes any extra spaces, then check if matches number
+        elif self.mode == "phrases":
+            return check_word_list_answer(challenge, player_answer) # uses word_generator's checker
+        else:
+            return check_pattern_answer(challenge, player_answer) # uses pattern_generator's checker
 
     def get_points(self):
         """Calculate points earned for the current level."""
