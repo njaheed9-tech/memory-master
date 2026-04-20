@@ -62,11 +62,18 @@ class MemoryMasterGame:
 
     def get_points(self):
         """Calculate points earned for the current level."""
-        pass
+        if self.difficulty == "easy":
+            multiplier = 1 
+        elif self.difficulty == "medium":
+            multiplier = 2
+        else: 
+            multiplier = 3 
+        return self.level * 10 * multiplier # higher level and harder difficulty = morep oints 
 
     def advance_level(self):
         """Add points to the score and move to the next level."""
-        pass
+        self.score += self.get_points() # add points to the score 
+        score += 1 # go to next level 
 
     def show_challenge(self, challenge):
         """Print the challenge, wait, then clear the screen."""
