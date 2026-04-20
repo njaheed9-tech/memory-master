@@ -77,11 +77,32 @@ class MemoryMasterGame:
 
     def show_challenge(self, challenge):
         """Print the challenge, wait, then clear the screen."""
-        pass
+        if self.mode == "numbers":
+            print(f"\n{challenge}\n") # prints number 
+        elif self.mode == "phrases":
+            print(f"\n{'  '.join(challenge)}\n") # prints words and separates by spaces
+        else: 
+            for row in challenge: 
+                print(" ".join(row)) # prints each row of the pattern with spaces between characters
+        time.sleep(self.get_display_time()) # waits based off difficulty 
+        clear_screen() # so player cant see 
+
 
     def get_player_answer(self):
         """Ask the player for their answer and return what they typed."""
-        pass
+        if self.mode == "numbers":
+            return input("Type the number you saw: ")
+        elif self.mode == "phrases":
+            return input("Type the words in order (separated by spaces): ")
+        else:
+            print("Type the pattern row by row. Press Enter on a blank line when done.")
+            lines = []
+            while True:
+                line = input()
+                if line == "": # blank line = player is done 
+                    break
+                lines.append(line)
+                return "\n".join(lines) # joins all the rows into one string 
 
     def run(self):
         """Run the game loop until the player gets one wrong."""
