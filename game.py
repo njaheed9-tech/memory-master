@@ -135,9 +135,11 @@ class MemoryMasterGame:
 
 def clear_screen():
     """Clear the terminal screen."""
-    pass
+    os.system("cls" if os.name == "nt" else "clear")
 
 
 def print_welcome(mode, difficulty):
     """Print a welcome message with the mode and difficulty."""
-    pass
+    print("Welcome to MemoryMaster!")
+    print(f"Mode: {mode.capitalize()}")
+    print(f"Difficulty: {difficulty.capitalize()}")
