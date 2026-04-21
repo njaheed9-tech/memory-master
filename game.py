@@ -106,7 +106,31 @@ class MemoryMasterGame:
 
     def run(self):
         """Run the game loop until the player gets one wrong."""
-        pass
+        print_welcome(self.mode, self.difficulty) # welcome message 
+
+        while True:
+            challenge = self.generate_challenge() # creates new challenge for this level
+
+            print(f"Level: {self.level} | Score: {self.score}")
+            print(f"Memorize this: ")
+            time.sleep(1)
+
+            self.show_challenge(challenge) # shows challenge, clears screen 
+
+            player_answer = self.get_player_answer() # asks player for their answer 
+
+            if self.check_answer(challenge, player_answer):
+                print("Correct")
+                self.advance_level()
+            else: 
+                print("Wrong! The correct answer was:")
+                print(f"Game over. Final score: {self.score}")
+
+                self.score_tracker.save_score(self.score) # save score 
+                high = self.score_tracker.get_high_score() # gets high score 
+                print(f"High score for {self.mode} mode: {high}")
+
+                break 
 
 
 def clear_screen():
