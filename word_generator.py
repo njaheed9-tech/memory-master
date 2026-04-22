@@ -33,7 +33,9 @@ def generate_word_list(count):
     Raises:
         ValueError: If count is less than 1.
     """
-    pass
+    if count < 1: 
+        raise ValueError("Count must be at least 1")
+    return random.sample(WORD_POOL, count) # picks random words from the pool 
 
 
 def check_word_list_answer(target, answer):
@@ -49,4 +51,6 @@ def check_word_list_answer(target, answer):
     Returns:
         bool: True if the words match in order, False otherwise.
     """
-    pass
+    player_words = answer.lower.split() # splits player's answers into a list of words 
+    correct_words = [word.lower() for word in target] # makes target lower case 
+    return player_words == correct_words # check if they match in order 
