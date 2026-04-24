@@ -1,5 +1,5 @@
 """
-pattern_generator.py - Generates ASCII patterns for MemoryMaster pictures mode. naveed test
+pattern_generator.py - Generates ASCII patterns for MemoryMaster pictures mode. testing naveed test
 """
 
 import random
