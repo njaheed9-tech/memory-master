@@ -78,7 +78,15 @@ class TestGame(unittest.TestCase):
         self.assertEqual(game.level, 1)
     
     def test_advance_level(self):
-        pass
+        """Test that advance_level increases level by 1 and adds points."""
+        game = MemoryMasterGame(mode="numbers", difficulty="easy")
+        initial_score = game.score
+        initial_level = game.level
+        
+        game.advance_level()
+        
+        self.assertEqual(game.level, initial_level + 1)
+        self.assertGreater(game.score, initial_score)
 
 
 if __name__ == "__main__":
