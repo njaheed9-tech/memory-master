@@ -5,6 +5,7 @@ test_memory_master.py - Unit tests for MemoryMaster.
 import unittest
 from number_generator import generate_number
 from word_generator import generate_word_list
+from pattern_generator import get_pattern_size
 
 
 class TestNumberGenerator(unittest.TestCase):
@@ -37,7 +38,11 @@ class TestWordGenerator(unittest.TestCase):
 
 class TestPatternGenerator(unittest.TestCase):
     def test_correct_rows_and_cols(self):
-        pass
+        """Test that get_pattern_size returns a tuple with rows and cols."""
+        result = get_pattern_size(1)
+        self.assertIsInstance(result, tuple)
+        self.assertEqual(len(result), 2)
+    
     def test_correct_pattern_answer(self):
         pass
 
