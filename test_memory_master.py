@@ -3,9 +3,11 @@ test_memory_master.py - Unit tests for MemoryMaster.
 """
 
 import unittest
+import os
 from number_generator import generate_number
 from word_generator import generate_word_list
 from pattern_generator import get_pattern_size
+from score_tracker import ScoreTracker
 
 
 class TestNumberGenerator(unittest.TestCase):
@@ -48,8 +50,22 @@ class TestPatternGenerator(unittest.TestCase):
 
 
 class TestScoreTracker(unittest.TestCase):
+    def setUp(self):
+        """Create a temporary test file before each test."""
+        self.test_file = "test_high_score.txt"
+        if os.path.exists(self.test_file):
+            os.remove(self.test_file)
+    
+    def tearDown(self):
+        """Clean up the test file after each test."""
+        if os.path.exists(self.test_file):
+            os.remove(self.test_file)
+    
     def test_starts_at_zero(self):
-        pass
+        """Test that get_high_score returns 0 when no file exists."""
+        tracker = ScoreTracker(filepath=self.test_file)
+        self.assertEqual(tracker.get_high_score(), 0)
+    
     def test_saves_high_score(self):
         pass
 
