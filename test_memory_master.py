@@ -5,7 +5,7 @@ test_memory_master.py - Unit tests for MemoryMaster.
 import unittest
 import os
 from number_generator import generate_number
-from word_generator import generate_word_list
+from word_generator import generate_word_list, check_word_list_answer
 from pattern_generator import get_pattern_size
 from score_tracker import ScoreTracker
 from game import MemoryMasterGame
@@ -36,7 +36,20 @@ class TestWordGenerator(unittest.TestCase):
             self.assertEqual(len(words), count)
     
     def test_correct_answer(self):
-        pass
+        """Test that check_word_list_answer correctly compares words."""
+        target = ["apple", "bridge", "candle"]
+        
+        # Test correct answer
+        self.assertTrue(check_word_list_answer(target, "apple bridge candle"))
+        
+        # Test wrong order
+        self.assertFalse(check_word_list_answer(target, "bridge apple candle"))
+        
+        # Test wrong words
+        self.assertFalse(check_word_list_answer(target, "dog cat mouse"))
+        
+        # Test case insensitivity
+        self.assertTrue(check_word_list_answer(target, "APPLE BRIDGE CANDLE"))
 
 
 class TestPatternGenerator(unittest.TestCase):
