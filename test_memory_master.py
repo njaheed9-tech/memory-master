@@ -8,6 +8,7 @@ from number_generator import generate_number
 from word_generator import generate_word_list
 from pattern_generator import get_pattern_size
 from score_tracker import ScoreTracker
+from game import MemoryMasterGame
 
 
 class TestNumberGenerator(unittest.TestCase):
@@ -72,7 +73,10 @@ class TestScoreTracker(unittest.TestCase):
 
 class TestGame(unittest.TestCase):
     def test_starts_at_level_1(self):
-        pass
+        """Test that a new game starts at level 1."""
+        game = MemoryMasterGame(mode="numbers", difficulty="easy")
+        self.assertEqual(game.level, 1)
+    
     def test_advance_level(self):
         pass
 
