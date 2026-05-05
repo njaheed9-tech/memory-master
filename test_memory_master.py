@@ -4,6 +4,7 @@ test_memory_master.py - Unit tests for MemoryMaster.
 
 import unittest
 from number_generator import generate_number
+from word_generator import generate_word_list
 
 
 class TestNumberGenerator(unittest.TestCase):
@@ -23,11 +24,13 @@ class TestNumberGenerator(unittest.TestCase):
             generate_number(0)
 
 
-# rest of tests still need to be written
-
 class TestWordGenerator(unittest.TestCase):
     def test_correct_count(self):
-        pass
+        """Test that generate_word_list returns the correct number of words."""
+        for count in range(1, 6):
+            words = generate_word_list(count)
+            self.assertEqual(len(words), count)
+    
     def test_correct_answer(self):
         pass
 
