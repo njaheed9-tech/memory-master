@@ -27,7 +27,7 @@ class MemoryMasterGame:
             raise ValueError("Difficulty must be easy, medium, or hard")
         
         self.mode = mode 
-        self.difficulty = difficulty  # FIXED: was 'diffculty' (missing 'i')
+        self.difficulty = difficulty
         self.level = 1 
         self.score = 0 
         self.score_tracker = ScoreTracker(filepath=f"High_score_{mode}.txt")
@@ -53,12 +53,16 @@ class MemoryMasterGame:
 
     def check_answer(self, challenge, player_answer):
         """Return True if the player's answer is correct, False if not."""
+        # Handle empty answers for all modes
+        if not player_answer or not player_answer.strip():
+            return False
+            
         if self.mode == "numbers":
-            return player_answer.strip() == challenge # removes any extra spaces, then check if matches number
+            return player_answer.strip() == challenge
         elif self.mode == "phrases":
-            return check_word_list_answer(challenge, player_answer) # uses word_generator's checker
+            return check_word_list_answer(challenge, player_answer)
         else:
-            return check_pattern_answer(challenge, player_answer) # uses pattern_generator's checker
+            return check_pattern_answer(challenge, player_answer)
 
     def get_points(self):
         """Calculate points earned for the current level."""
@@ -68,69 +72,77 @@ class MemoryMasterGame:
             multiplier = 2
         else: 
             multiplier = 3 
-        return self.level * 10 * multiplier # higher level and harder difficulty = more points 
+        return self.level * 10 * multiplier
 
     def advance_level(self):
         """Add points to the score and move to the next level."""
-        self.score += self.get_points() # add points to the score 
-        self.level += 1 # FIXED: was 'score += 1' (wrong variable name)
+        self.score += self.get_points()
+        self.level += 1
 
     def show_challenge(self, challenge):
         """Print the challenge, wait, then clear the screen."""
         if self.mode == "numbers":
-            print(f"\n{challenge}\n") # prints number 
+            print(f"\n{challenge}\n")
         elif self.mode == "phrases":
-            print(f"\n{'  '.join(challenge)}\n") # prints words and separates by spaces
+            print(f"\n{'  '.join(challenge)}\n")
         else: 
             for row in challenge: 
-                print(" ".join(row)) # prints each row of the pattern with spaces between characters
-        time.sleep(self.get_display_time()) # waits based off difficulty 
-        clear_screen() # so player cant see 
-
+                print(" ".join(row))
+        time.sleep(self.get_display_time())
+        clear_screen()
 
     def get_player_answer(self):
         """Ask the player for their answer and return what they typed."""
         if self.mode == "numbers":
-            return input("Type the number you saw: ")
+            answer = input("Type the number you saw: ")
+            # Validate number answer
+            if not answer.strip():
+                print("No answer detected. That counts as wrong!")
+            return answer
         elif self.mode == "phrases":
-            return input("Type the words in order (separated by spaces): ")
+            answer = input("Type the words in order (separated by spaces): ")
+            if not answer.strip():
+                print("No answer detected. That counts as wrong!")
+            return answer
         else:
             print("Type the pattern row by row. Press Enter on a blank line when done.")
             lines = []
             while True:
                 line = input()
-                if line == "": # blank line = player is done 
+                if line == "":
                     break
                 lines.append(line)
-            return "\n".join(lines) # FIXED: moved return outside the loop
+            if not lines:
+                print("No answer detected. That counts as wrong!")
+            return "\n".join(lines)
 
     def run(self):
         """Run the game loop until the player gets one wrong."""
-        print_welcome(self.mode, self.difficulty) # welcome message 
+        print_welcome(self.mode, self.difficulty)
 
         while True:
-            challenge = self.generate_challenge() # creates new challenge for this level
+            challenge = self.generate_challenge()
 
-            print(f"Level: {self.level} | Score: {self.score}")
-            print(f"Memorize this: ")
+            print(f"\nLevel: {self.level} | Score: {self.score}")
+            print("Memorize this:")
             time.sleep(1)
 
-            self.show_challenge(challenge) # shows challenge, clears screen 
+            self.show_challenge(challenge)
 
-            player_answer = self.get_player_answer() # asks player for their answer 
+            player_answer = self.get_player_answer()
 
             if self.check_answer(challenge, player_answer):
-                print("Correct")
+                print("\nCorrect! 🎉")
                 self.advance_level()
             else: 
-                print("Wrong! The correct answer was:")
+                print("\nWrong! ❌")
                 print(f"Game over. Final score: {self.score}")
 
-                self.score_tracker.save_score(self.score) # save score 
-                high = self.score_tracker.get_high_score() # gets high score 
+                self.score_tracker.save_score(self.score)
+                high = self.score_tracker.get_high_score()
                 print(f"High score for {self.mode} mode: {high}")
 
-                break 
+                break
 
 
 def clear_screen():
@@ -140,6 +152,9 @@ def clear_screen():
 
 def print_welcome(mode, difficulty):
     """Print a welcome message with the mode and difficulty."""
+    print("=" * 40)
     print("Welcome to MemoryMaster!")
     print(f"Mode: {mode.capitalize()}")
     print(f"Difficulty: {difficulty.capitalize()}")
+    print("=" * 40)
+    print()
