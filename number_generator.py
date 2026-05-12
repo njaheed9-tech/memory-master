@@ -30,8 +30,8 @@ def generate_number(digits):
     if digits == 1:
         return str(random.randint(0, 9))
 
-    result = str(random.randint(1, 9))
-    for i in range(digits - 1):
-        result += str(random.randint(0, 9))
-
-    return result
+    # More efficient: generate first digit (1-9) then remaining digits (0-9)
+    first_digit = str(random.randint(1, 9))
+    remaining_digits = ''.join(str(random.randint(0, 9)) for _ in range(digits - 1))
+    
+    return first_digit + remaining_digits
