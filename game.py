@@ -27,7 +27,7 @@ class MemoryMasterGame:
             raise ValueError("Difficulty must be easy, medium, or hard")
         
         self.mode = mode 
-        self.diffculty = difficulty 
+        self.difficulty = difficulty  # FIXED: was 'diffculty' (missing 'i')
         self.level = 1 
         self.score = 0 
         self.score_tracker = ScoreTracker(filepath=f"High_score_{mode}.txt")
@@ -68,12 +68,12 @@ class MemoryMasterGame:
             multiplier = 2
         else: 
             multiplier = 3 
-        return self.level * 10 * multiplier # higher level and harder difficulty = morep oints 
+        return self.level * 10 * multiplier # higher level and harder difficulty = more points 
 
     def advance_level(self):
         """Add points to the score and move to the next level."""
         self.score += self.get_points() # add points to the score 
-        score += 1 # go to next level 
+        self.level += 1 # FIXED: was 'score += 1' (wrong variable name)
 
     def show_challenge(self, challenge):
         """Print the challenge, wait, then clear the screen."""
@@ -102,7 +102,7 @@ class MemoryMasterGame:
                 if line == "": # blank line = player is done 
                     break
                 lines.append(line)
-                return "\n".join(lines) # joins all the rows into one string 
+            return "\n".join(lines) # FIXED: moved return outside the loop
 
     def run(self):
         """Run the game loop until the player gets one wrong."""
