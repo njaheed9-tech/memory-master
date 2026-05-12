@@ -123,6 +123,20 @@ class TestGame(unittest.TestCase):
         
         self.assertEqual(game.level, initial_level + 1)
         self.assertGreater(game.score, initial_score)
+    
+    def test_get_display_time(self):
+        """Test that get_display_time returns correct times for each difficulty."""
+        # Easy difficulty - 5 seconds
+        game_easy = MemoryMasterGame(mode="numbers", difficulty="easy")
+        self.assertEqual(game_easy.get_display_time(), 5.0)
+        
+        # Medium difficulty - 3 seconds
+        game_medium = MemoryMasterGame(mode="numbers", difficulty="medium")
+        self.assertEqual(game_medium.get_display_time(), 3.0)
+        
+        # Hard difficulty - 1.5 seconds
+        game_hard = MemoryMasterGame(mode="numbers", difficulty="hard")
+        self.assertEqual(game_hard.get_display_time(), 1.5)
 
 
 if __name__ == "__main__":
