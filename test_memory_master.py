@@ -6,7 +6,7 @@ import unittest
 import os
 from number_generator import generate_number
 from word_generator import generate_word_list, check_word_list_answer
-from pattern_generator import get_pattern_size
+from pattern_generator import get_pattern_size, check_pattern_answer
 from score_tracker import ScoreTracker
 from game import MemoryMasterGame
 
@@ -60,7 +60,17 @@ class TestPatternGenerator(unittest.TestCase):
         self.assertEqual(len(result), 2)
     
     def test_correct_pattern_answer(self):
-        pass
+        """Test that check_pattern_answer correctly compares patterns."""
+        target = ["#@", "*+"]
+        
+        # Test correct answer (player types row by row)
+        self.assertTrue(check_pattern_answer(target, "#@\n*+"))
+        
+        # Test wrong answer
+        self.assertFalse(check_pattern_answer(target, "@#\n+*"))
+        
+        # Test missing row
+        self.assertFalse(check_pattern_answer(target, "#@"))
 
 
 class TestScoreTracker(unittest.TestCase):
