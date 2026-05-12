@@ -91,7 +91,20 @@ class TestScoreTracker(unittest.TestCase):
         self.assertEqual(tracker.get_high_score(), 0)
     
     def test_saves_high_score(self):
-        pass
+        """Test that save_score only saves if score is higher than current high score."""
+        tracker = ScoreTracker(filepath=self.test_file)
+        
+        # Save first score
+        tracker.save_score(100)
+        self.assertEqual(tracker.get_high_score(), 100)
+        
+        # Try to save lower score - should NOT update
+        tracker.save_score(50)
+        self.assertEqual(tracker.get_high_score(), 100)
+        
+        # Save higher score - SHOULD update
+        tracker.save_score(200)
+        self.assertEqual(tracker.get_high_score(), 200)
 
 
 class TestGame(unittest.TestCase):
