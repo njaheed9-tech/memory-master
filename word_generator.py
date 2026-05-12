@@ -31,10 +31,12 @@ def generate_word_list(count):
         list: A list of randomly chosen words with no repeats.
 
     Raises:
-        ValueError: If count is less than 1.
+        ValueError: If count is less than 1 or greater than the word pool size.
     """
     if count < 1:
         raise ValueError("Count must be at least 1")
+    if count > len(WORD_POOL):
+        raise ValueError(f"Count cannot exceed {len(WORD_POOL)} words")
     return random.sample(WORD_POOL, count)
 
 
@@ -43,6 +45,7 @@ def check_word_list_answer(target, answer):
     Check if the player typed the words back in the right order.
 
     This is case-insensitive so "Apple" and "apple" both count.
+    Extra spaces are handled automatically.
 
     Args:
         target (list): The original list of words shown to the player.
@@ -51,6 +54,16 @@ def check_word_list_answer(target, answer):
     Returns:
         bool: True if the words match in order, False otherwise.
     """
-    player_words = answer.lower().split()  
+    # Handle empty or whitespace-only answers
+    if not answer or not answer.strip():
+        return False
+    
+    # Split on whitespace (handles multiple spaces, tabs, etc.)
+    player_words = answer.strip().lower().split()
     correct_words = [word.lower() for word in target]
+    
+    # Check if the number of words matches
+    if len(player_words) != len(correct_words):
+        return False
+    
     return player_words == correct_words
