@@ -20,24 +20,32 @@ WORD_POOL = [
 ]
 
 
-def generate_word_list(count):
+def generate_word_list(count, allow_duplicates=False):
     """
-    Return a list of random unique words.
+    Return a list of random words.
 
     Args:
         count (int): How many words to include. Must be at least 1.
+        allow_duplicates (bool): If True, words can repeat. If False, all words are unique.
 
     Returns:
-        list: A list of randomly chosen words with no repeats.
+        list: A list of randomly chosen words.
 
     Raises:
-        ValueError: If count is less than 1 or greater than the word pool size.
+        ValueError: If count is less than 1.
+        ValueError: If allow_duplicates is False and count exceeds word pool size.
     """
     if count < 1:
         raise ValueError("Count must be at least 1")
-    if count > len(WORD_POOL):
-        raise ValueError(f"Count cannot exceed {len(WORD_POOL)} words")
-    return random.sample(WORD_POOL, count)
+    
+    if allow_duplicates:
+        # Allow repeats - useful for harder difficulty
+        return [random.choice(WORD_POOL) for _ in range(count)]
+    else:
+        # No repeats - standard mode
+        if count > len(WORD_POOL):
+            raise ValueError(f"Count cannot exceed {len(WORD_POOL)} words when duplicates are not allowed")
+        return random.sample(WORD_POOL, count)
 
 
 def check_word_list_answer(target, answer):
